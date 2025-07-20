@@ -3,58 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Disease Prediction System{% endblock %}</title>
+    <title>{% block title %}MediPredict AI - Advanced Disease Prediction{% endblock %}</title>
+    <meta name="description" content="AI-powered disease prediction system using machine learning for accurate health insights">
+    <meta name="keywords" content="disease prediction, AI, machine learning, health, medical diagnosis">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('index') }}">
-                <i class="fas fa-stethoscope me-2"></i>
-                Disease Prediction System
+            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+                <i class="fas fa-stethoscope me-2 brand-icon"></i>
+                <span class="brand-text">MediPredict AI</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('index') }}">
-                            <i class="fas fa-home me-1"></i>Home
+                        <a class="nav-link nav-link-enhanced" href="{{ url_for('index') }}">
+                            <i class="fas fa-home me-2"></i>
+                            <span>Home</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about') }}">
-                            <i class="fas fa-info-circle me-1"></i>About
+                        <a class="nav-link nav-link-enhanced" href="{{ url_for('about') }}">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <span>About</span>
                         </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-enhanced" href="#" data-bs-toggle="modal" data-bs-target="#helpModal">
+                            <i class="fas fa-question-circle me-2"></i>
+                            <span>Help</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <button class="btn btn-theme-toggle rounded-pill" onclick="toggleTheme()" title="Toggle Dark Mode">
+                            <i class="fas fa-moon" id="themeIcon"></i>
+                        </button>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
+    <!-- Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="helpModalLabel">
+                        <i class="fas fa-question-circle me-2"></i>
+                        How to Use MediPredict AI
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-clipboard-list text-primary me-2"></i>Step 1: Select Symptoms</h6>
+                            <p class="small text-muted">Choose from the comprehensive list of symptoms that match your condition. Use the search feature to quickly find specific symptoms.</p>
+                            
+                            <h6><i class="fas fa-brain text-primary me-2"></i>Step 2: AI Analysis</h6>
+                            <p class="small text-muted">Our advanced machine learning algorithm analyzes your symptoms and provides accurate disease predictions.</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-chart-bar text-primary me-2"></i>Step 3: Review Results</h6>
+                            <p class="small text-muted">Get detailed predictions with confidence scores, severity levels, and recommended precautions.</p>
+                            
+                            <h6><i class="fas fa-user-md text-primary me-2"></i>Step 4: Consult Doctor</h6>
+                            <p class="small text-muted">Always consult with a healthcare professional for proper medical diagnosis and treatment.</p>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning mt-3">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <strong>Disclaimer:</strong> This tool is for educational purposes only and should not replace professional medical advice.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <main>
         {% block content %}{% endblock %}
     </main>
 
+    <!-- Medical Disclaimer Banner (Always Visible) -->
+    <div class="disclaimer-banner">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-12 text-center">
+                    <i class="fas fa-exclamation-triangle me-2 text-warning"></i>
+                    <strong>Medical Disclaimer:</strong> This system is for educational purposes only. Always consult a healthcare professional for medical advice.
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-4 mt-5">
+    <footer class="footer-modern mt-5">
         <div class="container">
-            <p>&copy; 2025 Disease Prediction System. Built with Machine Learning & Flask.</p>
-            <p class="small">
-                <i class="fas fa-exclamation-triangle me-1"></i>
-                This system is for educational purposes only. Always consult a healthcare professional for medical advice.
-            </p>
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <div class="footer-brand mb-2">
+                        <i class="fas fa-stethoscope me-2"></i>
+                        <strong>MediPredict AI</strong>
+                    </div>
+                    <p class="mb-0">&copy; 2025 MediPredict AI. Built with Machine Learning & Flask.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <div class="disclaimer-box">
+                        <i class="fas fa-exclamation-triangle me-2 text-warning"></i>
+                        <span class="disclaimer-text">
+                            <strong>Medical Disclaimer:</strong> This system is for educational purposes only. 
+                            Always consult a healthcare professional for medical advice.
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider my-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div class="footer-links">
+                        <a href="#" class="footer-link me-3">Privacy Policy</a>
+                        <a href="#" class="footer-link me-3">Terms of Service</a>
+                        <a href="{{ url_for('about') }}" class="footer-link">About Us</a>
+                    </div>
+                    <p class="footer-note mt-2 mb-0">
+                        Powered by Advanced Machine Learning Algorithms
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
+    <!-- Enhanced Navbar Script -->
+    <script>
+        // Enhanced Theme Toggle Functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.getElementById('themeIcon');
+            const currentTheme = body.getAttribute('data-theme');
+            
+            if (currentTheme === 'dark') {
+                body.removeAttribute('data-theme');
+                themeIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+                updateThemeButton('light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+                updateThemeButton('dark');
+            }
+        }
+        
+        function updateThemeButton(theme) {
+            const themeButton = document.querySelector('.btn-theme-toggle');
+            if (themeButton) {
+                if (theme === 'dark') {
+                    themeButton.style.background = 'rgba(99, 102, 241, 0.3)';
+                    themeButton.style.borderColor = 'rgba(99, 102, 241, 0.5)';
+                } else {
+                    themeButton.style.background = 'rgba(255, 255, 255, 0.2)';
+                    themeButton.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+                }
+            }
+        }
+        
+        // Enhanced page load functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved theme immediately
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.getElementById('themeIcon');
+            const body = document.body;
+            
+            if (savedTheme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                if (themeIcon) themeIcon.className = 'fas fa-sun';
+                updateThemeButton('dark');
+            } else {
+                updateThemeButton('light');
+            }
+            
+            // Enhanced navbar scroll effect
+            const navbar = document.querySelector('.navbar');
+            let lastScrollTop = 0;
+            
+            if (navbar) {
+                window.addEventListener('scroll', function() {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const currentTheme = body.getAttribute('data-theme');
+                    
+                    if (scrollTop > 50) {
+                        if (currentTheme === 'dark') {
+                            navbar.style.background = 'linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95))';
+                            navbar.style.backdropFilter = 'blur(20px)';
+                        } else {
+                            navbar.style.background = 'linear-gradient(135deg, rgba(79, 70, 229, 0.95), rgba(124, 58, 237, 0.95))';
+                            navbar.style.backdropFilter = 'blur(20px)';
+                        }
+                        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
+                    } else {
+                        if (currentTheme === 'dark') {
+                            navbar.style.background = 'linear-gradient(135deg, #0f172a, #1e293b)';
+                        } else {
+                            navbar.style.background = 'linear-gradient(135deg, var(--primary-color), #7c3aed)';
+                        }
+                        navbar.style.backdropFilter = 'blur(10px)';
+                        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                    }
+                    
+                    // Hide/show navbar on scroll for mobile only
+                    if (window.innerWidth <= 768) {
+                        if (scrollTop > lastScrollTop && scrollTop > 100) {
+                            navbar.style.transform = 'translateY(-100%)';
+                        } else {
+                            navbar.style.transform = 'translateY(0)';
+                        }
+                    }
+                    lastScrollTop = scrollTop;
+                });
+            }
+            
+            // Add active page highlighting
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link-enhanced');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath || (currentPath === '/' && href === '/')) {
+                    link.style.background = 'rgba(255, 255, 255, 0.25)';
+                    link.style.fontWeight = '600';
+                    link.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+                }
+            });
+        });
+        
+        // Add keyboard shortcut for theme toggle
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'D') {
+                e.preventDefault();
+                toggleTheme();
+                showThemeNotification();
+            }
+        });
+        
+        function showThemeNotification() {
+            const notification = document.createElement('div');
+            const currentTheme = document.body.getAttribute('data-theme') || 'light';
+            
+            notification.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${currentTheme === 'dark' ? '#1e293b' : '#4f46e5'};
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 25px;
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+                    z-index: 9999;
+                    font-size: 14px;
+                    font-weight: 500;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                ">
+                    <i class="fas fa-${currentTheme === 'dark' ? 'moon' : 'sun'} me-2"></i>
+                    ${currentTheme === 'dark' ? 'Dark' : 'Light'} mode activated
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.firstElementChild.style.transform = 'translateX(0)';
+            }, 10);
+            
+            setTimeout(() => {
+                notification.firstElementChild.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 300);
+            }, 2000);
+        }
+    </script>
+    
     {% block scripts %}{% endblock %}
 </body>
 </html>
