@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}About - Disease Prediction System{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold text-primary">
+                        <i class="fas fa-info-circle me-3"></i>
+                        About Our System
+                    </h1>
+                    <p class="lead text-muted">Learn how our AI-powered disease prediction system works</p>
+                </div>
+                
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card shadow border-0 h-100">
+                            <div class="card-body p-4">
+                                <div class="text-center mb-4">
+                                    <div class="feature-icon bg-primary mx-auto">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-center mb-3">How It Works</h3>
+                                <ul class="list-unstyled">
+                                    <li class="mb-3">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <strong>Data Collection:</strong> Trained on comprehensive medical datasets
+                                    </li>
+                                    <li class="mb-3">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <strong>Machine Learning:</strong> Uses advanced algorithms like Random Forest
+                                    </li>
+                                    <li class="mb-3">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <strong>Symptom Analysis:</strong> Analyzes symptom patterns and correlations
+                                    </li>
+                                    <li class="mb-3">
+                                        <i class="fas fa-check-circle text-success me-2"></i>
+                                        <strong>Prediction:</strong> Provides disease predictions with confidence scores
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="card shadow border-0 h-100">
+                            <div class="card-body p-4">
+                                <div class="text-center mb-4">
+                                    <div class="feature-icon bg-success mx-auto">
+                                        <i class="fas fa-database"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-center mb-3">Our Datasets</h3>
+                                <ul class="list-unstyled">
+                                    <li class="mb-3">
+                                        <i class="fas fa-file-medical text-primary me-2"></i>
+                                        <strong>Training Data:</strong> 4,920+ disease-symptom combinations
+                                    </li>
+                                    <li class="mb-3">
+                                        <i class="fas fa-file-medical text-primary me-2"></i>
+                                        <strong>Disease Descriptions:</strong> Detailed medical descriptions
+                                    </li>
+                                    <li class="mb-3">
+                                        <i class="fas fa-file-medical text-primary me-2"></i>
+                                        <strong>Precautions:</strong> Preventive measures for each disease
+                                    </li>
+                                    <li class="mb-3">
+                                        <i class="fas fa-file-medical text-primary me-2"></i>
+                                        <strong>Severity Weights:</strong> Symptom severity scoring system
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card shadow border-0 mt-5">
+                    <div class="card-header bg-warning text-dark">
+                        <h4 class="mb-0">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Important Disclaimer
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning" role="alert">
+                            <h5 class="alert-heading">Medical Disclaimer</h5>
+                            <p>This disease prediction system is designed for <strong>educational and informational purposes only</strong>. It should not be used as a substitute for professional medical advice, diagnosis, or treatment.</p>
+                            <hr>
+                            <p class="mb-0">
+                                <strong>Always consult with a qualified healthcare professional</strong> for proper medical evaluation and treatment. 
+                                In case of emergency, contact your local emergency services immediately.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row g-4 mt-4">
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="feature-icon bg-info mx-auto mb-3">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h5>Technology Stack</h5>
+                            <ul class="list-unstyled text-muted">
+                                <li>Python & Flask</li>
+                                <li>Scikit-learn</li>
+                                <li>Bootstrap 5</li>
+                                <li>HTML5 & CSS3</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="feature-icon bg-secondary mx-auto mb-3">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h5>Model Performance</h5>
+                            <ul class="list-unstyled text-muted">
+                                <li>High Accuracy</li>
+                                <li>Cross-validated</li>
+                                <li>Multiple Algorithms</li>
+                                <li>Confidence Scoring</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="feature-icon bg-dark mx-auto mb-3">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h5>Use Cases</h5>
+                            <ul class="list-unstyled text-muted">
+                                <li>Educational Tool</li>
+                                <li>Health Awareness</li>
+                                <li>Research Purpose</li>
+                                <li>ML Demonstration</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-5">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Back to Prediction
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

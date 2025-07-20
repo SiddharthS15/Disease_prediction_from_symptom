@@ -1,0 +1,507 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-user-md me-3"></i>
+                    AI-Powered Disease Prediction
+                </h1>
+                <p class="lead mb-4">
+                    Get instant disease predictions based on your symptoms using advanced machine learning algorithms.
+                    Our system analyzes patterns from thousands of medical cases to provide accurate insights.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <div class="feature-badge">
+                        <i class="fas fa-brain me-2"></i>AI-Powered
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-clock me-2"></i>Instant Results
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-shield-alt me-2"></i>Reliable
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="hero-image">
+                    <i class="fas fa-stethoscope hero-icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Prediction Form Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">
+                            <i class="fas fa-clipboard-list me-2"></i>
+                            Select Your Symptoms
+                        </h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <form id="symptomForm">
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Search Symptoms:</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <input type="text" id="symptomSearch" class="form-control" 
+                                           placeholder="Type to search symptoms...">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Available Symptoms:</label>
+                                <div class="symptoms-container" id="symptomsContainer">
+                                    {% for symptom in symptoms %}
+                                    <div class="symptom-item">
+                                        <input type="checkbox" id="symptom_{{ loop.index }}" 
+                                               name="symptoms" value="{{ symptom }}" class="form-check-input">
+                                        <label for="symptom_{{ loop.index }}" class="form-check-label">
+                                            {{ symptom.replace('_', ' ').title() }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="selected-symptoms" id="selectedSymptoms">
+                                    <p class="fw-bold mb-2">Selected Symptoms:</p>
+                                    <div id="selectedList" class="selected-list"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-search me-2"></i>
+                                    Predict Disease
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center py-4">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5>Analyzing Symptoms...</h5>
+                <p class="text-muted">Please wait while our AI processes your symptoms.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Results Section -->
+<section class="py-5 bg-light" id="resultsSection" style="display: none;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center mb-5">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Prediction Results
+                </h2>
+            </div>
+        </div>
+        
+        <div id="resultsContent">
+            <!-- Results will be populated here -->
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Why Choose Our System?</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon bg-primary">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h4>AI-Powered Analysis</h4>
+                    <p>Advanced machine learning algorithms trained on thousands of medical cases for accurate predictions.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon bg-success">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h4>Instant Results</h4>
+                    <p>Get immediate disease predictions and recommendations within seconds of symptom input.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card text-center">
+                    <div class="feature-icon bg-info">
+                        <i class="fas fa-prescription-bottle-alt"></i>
+                    </div>
+                    <h4>Comprehensive Info</h4>
+                    <p>Receive detailed disease descriptions, severity scores, and preventive measures.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('symptomForm');
+    const searchInput = document.getElementById('symptomSearch');
+    const symptomsContainer = document.getElementById('symptomsContainer');
+    const selectedList = document.getElementById('selectedList');
+    const resultsSection = document.getElementById('resultsSection');
+    const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+    
+    // Add modal event listeners
+    const modalElement = document.getElementById('loadingModal');
+    modalElement.addEventListener('hidden.bs.modal', function () {
+        console.log('Modal hidden event triggered');
+        // Ensure cleanup is complete
+        document.body.classList.remove('modal-open');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+    });
+    
+    console.log('DOM elements initialized:', {
+        form: !!form,
+        searchInput: !!searchInput,
+        symptomsContainer: !!symptomsContainer,
+        selectedList: !!selectedList,
+        resultsSection: !!resultsSection,
+        loadingModal: !!loadingModal
+    });
+    
+    // Search functionality
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const symptomItems = symptomsContainer.querySelectorAll('.symptom-item');
+        
+        symptomItems.forEach(item => {
+            const label = item.querySelector('label').textContent.toLowerCase();
+            if (label.includes(searchTerm)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+    
+    // Update selected symptoms display
+    function updateSelectedSymptoms() {
+        const checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
+        const selected = Array.from(checkboxes).map(cb => cb.value);
+        
+        if (selected.length > 0) {
+            selectedList.innerHTML = selected.map(symptom => 
+                `<span class="badge bg-primary me-2 mb-2">${symptom.replace('_', ' ')}</span>`
+            ).join('');
+        } else {
+            selectedList.innerHTML = '<span class="text-muted">No symptoms selected</span>';
+        }
+    }
+    
+    // Listen for checkbox changes
+    symptomsContainer.addEventListener('change', updateSelectedSymptoms);
+    
+    function hideLoadingModal() {
+        console.log('Hiding loading modal...');
+        
+        // Hide using Bootstrap method
+        loadingModal.hide();
+        
+        // Force hide the modal immediately
+        const modalElement = document.getElementById('loadingModal');
+        if (modalElement) {
+            modalElement.style.display = 'none';
+            modalElement.classList.remove('show');
+            modalElement.setAttribute('aria-hidden', 'true');
+        }
+        
+        // Force remove modal backdrop immediately and cleanup
+        setTimeout(() => {
+            // Remove all modal backdrops
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+            backdrops.forEach(backdrop => {
+                console.log('Removing modal backdrop');
+                backdrop.remove();
+            });
+            
+            // Clean up body styles
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+            
+            // Ensure modal is completely hidden
+            if (modalElement) {
+                modalElement.style.display = 'none';
+            }
+            
+            console.log('Modal cleanup completed');
+        }, 50);
+    }
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const checkboxes = document.querySelectorAll('input[name="symptoms"]:checked');
+        const selectedSymptoms = Array.from(checkboxes).map(cb => cb.value);
+        
+        if (selectedSymptoms.length === 0) {
+            alert('Please select at least one symptom.');
+            return;
+        }
+        
+        // Show loading modal
+        console.log('Showing loading modal...');
+        loadingModal.show();
+        
+        // Make prediction request
+        fetch('/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                symptoms: selectedSymptoms
+            })
+        })
+        .then(response => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Received data:', data);
+            
+            // Hide loading modal immediately
+            hideLoadingModal();
+            
+            // Shorter delay to ensure modal is hidden
+            setTimeout(() => {
+                if (data.error) {
+                    alert('Error: ' + data.error);
+                    return;
+                }
+                
+                displayResults(data);
+            }, 100);
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            
+            // Hide loading modal on error
+            hideLoadingModal();
+            
+            // Add delay before showing error
+            setTimeout(() => {
+                alert('An error occurred while making the prediction: ' + error.message);
+            }, 300);
+        });
+    });
+    
+    function displayResults(data) {
+        console.log('displayResults called with:', data);
+        
+        // Double-check modal is hidden
+        hideLoadingModal();
+        
+        const resultsContent = document.getElementById('resultsContent');
+        
+        if (!resultsContent) {
+            console.error('resultsContent element not found');
+            return;
+        }
+        
+        // Determine severity level
+        let severityClass = 'success';
+        let severityText = 'Low';
+        if (data.severity_score && data.severity_score > 20) {
+            severityClass = 'danger';
+            severityText = 'High';
+        } else if (data.severity_score && data.severity_score > 10) {
+            severityClass = 'warning';
+            severityText = 'Medium';
+        }
+        
+        // Build precautions HTML
+        let precautionsHtml = '';
+        if (data.precautions && data.precautions.length > 0) {
+            precautionsHtml = '<ul class="list-group list-group-flush">';
+            data.precautions.forEach(precaution => {
+                precautionsHtml += `<li class="list-group-item d-flex align-items-center">
+                    <i class="fas fa-check-circle text-success me-3"></i>
+                    ${precaution}
+                </li>`;
+            });
+            precautionsHtml += '</ul>';
+        } else {
+            precautionsHtml = '<p class="text-muted">No specific precautions available.</p>';
+        }
+        
+        // Build selected symptoms HTML
+        let symptomsHtml = '';
+        if (data.selected_symptoms && data.selected_symptoms.length > 0) {
+            data.selected_symptoms.forEach(symptom => {
+                symptomsHtml += `<span class="badge bg-light text-dark me-1 mb-1">${symptom.replace(/_/g, ' ')}</span>`;
+            });
+        } else {
+            symptomsHtml = 'No symptoms selected';
+        }
+        
+        // Build top predictions HTML
+        let predictionsHtml = '';
+        if (data.top_predictions && data.top_predictions.length > 0) {
+            data.top_predictions.forEach((pred, index) => {
+                predictionsHtml += `
+                    <div class="prediction-item ${index === 0 ? 'active' : ''} mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-bold">${pred.disease}</span>
+                            <span class="badge bg-primary">${pred.probability}%</span>
+                        </div>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar" style="width: ${pred.probability}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            predictionsHtml = 'No predictions available';
+        }
+        
+        // Determine confidence color
+        let confidenceColor = 'danger';
+        if (data.confidence > 80) confidenceColor = 'success';
+        else if (data.confidence > 60) confidenceColor = 'warning';
+        
+        console.log('Building beautiful results HTML...');
+        
+        resultsContent.innerHTML = `
+            <div class="row">
+                <!-- Main Prediction -->
+                <div class="col-lg-8">
+                    <div class="card shadow border-0 mb-4">
+                        <div class="card-header bg-${confidenceColor} text-white">
+                            <h4 class="mb-0">
+                                <i class="fas fa-diagnoses me-2"></i>
+                                Primary Prediction
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <h3 class="text-primary mb-2">${data.predicted_disease}</h3>
+                                    <div class="mb-3">
+                                        <span class="badge bg-primary fs-6">Confidence: ${data.confidence}%</span>
+                                        <span class="badge bg-${severityClass} fs-6 ms-2">Severity: ${severityText}</span>
+                                    </div>
+                                    <p class="text-muted">${data.description}</p>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <div class="confidence-circle">
+                                        <div class="circle-progress" data-percentage="${data.confidence}">
+                                            <span>${data.confidence}%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Precautions -->
+                    <div class="card shadow border-0">
+                        <div class="card-header bg-info text-white">
+                            <h5 class="mb-0">
+                                <i class="fas fa-shield-alt me-2"></i>
+                                Recommended Precautions
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            ${precautionsHtml}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    <!-- Selected Symptoms -->
+                    <div class="card shadow border-0 mb-4">
+                        <div class="card-header bg-secondary text-white">
+                            <h6 class="mb-0">
+                                <i class="fas fa-list me-2"></i>
+                                Selected Symptoms
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            ${symptomsHtml}
+                        </div>
+                    </div>
+                    
+                    <!-- Top Predictions -->
+                    <div class="card shadow border-0">
+                        <div class="card-header bg-primary text-white">
+                            <h6 class="mb-0">
+                                <i class="fas fa-chart-bar me-2"></i>
+                                Top Predictions
+                            </h6>
+                        </div>
+                        <div class="card-body">
+                            ${predictionsHtml}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        console.log('Beautiful results HTML set, showing results section...');
+        
+        // Show results section
+        resultsSection.style.display = 'block';
+        
+        // Smooth scroll to results
+        resultsSection.scrollIntoView({ behavior: 'smooth' });
+        
+        // Animate confidence circle if function exists
+        if (typeof animateConfidenceCircle === 'function') {
+            animateConfidenceCircle(data.confidence);
+        }
+        
+        console.log('displayResults completed successfully');
+    }
+    
+    function animateConfidenceCircle(percentage) {
+        const circle = document.querySelector('.circle-progress');
+        if (circle) {
+            circle.style.setProperty('--percentage', percentage);
+            circle.classList.add('animate');
+        }
+    }
+    
+    // Initialize
+    updateSelectedSymptoms();
+});
+</script>
+{% endblock %}

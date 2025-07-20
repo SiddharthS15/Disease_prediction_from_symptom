@@ -1,0 +1,389 @@
+/* Custom CSS for Disease Prediction System */
+
+:root {
+    --primary-color: #4f46e5;
+    --secondary-color: #6b7280;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #3b82f6;
+    --light-color: #f8fafc;
+    --dark-color: #1f2937;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #374151;
+    background-color: #f9fafb;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #7c3aed 100%);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+.hero-icon {
+    font-size: 8rem;
+    opacity: 0.3;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+.feature-badge {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    backdrop-filter: blur(10px);
+}
+
+/* Feature Cards */
+.feature-card {
+    padding: 2rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    height: 100%;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    margin: 0 auto 1rem;
+}
+
+/* Symptoms Container */
+.symptoms-container {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 1rem;
+    background: white;
+}
+
+.symptom-item {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.symptom-item:hover {
+    background-color: #f3f4f6;
+}
+
+.symptom-item input[type="checkbox"] {
+    margin-right: 0.75rem;
+    transform: scale(1.2);
+}
+
+.symptom-item label {
+    margin: 0;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* Selected Symptoms */
+.selected-symptoms {
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 1rem;
+    border: 2px dashed #d1d5db;
+}
+
+.selected-list .badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Cards */
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    border: none;
+    padding: 1.5rem;
+}
+
+/* Confidence Circle */
+.confidence-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle-progress {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--primary-color) calc(var(--percentage) * 1%),
+        #e5e7eb calc(var(--percentage) * 1%)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 1s ease;
+}
+
+.circle-progress::before {
+    content: '';
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+}
+
+.circle-progress span {
+    z-index: 1;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.circle-progress.animate {
+    animation: progressAnimation 2s ease-in-out;
+}
+
+@keyframes progressAnimation {
+    from {
+        background: conic-gradient(
+            var(--primary-color) 0%,
+            #e5e7eb 0%
+        );
+    }
+}
+
+/* Prediction Items */
+.prediction-item {
+    padding: 1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.prediction-item.active {
+    border-color: var(--primary-color);
+    background-color: #f0f9ff;
+}
+
+.prediction-item:hover {
+    background-color: #f9fafb;
+}
+
+/* Progress Bars */
+.progress {
+    background-color: #e5e7eb;
+    border-radius: 10px;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--primary-color), #7c3aed);
+    border-radius: 10px;
+    transition: width 1s ease;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #7c3aed);
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+}
+
+.btn-lg {
+    padding: 1rem 3rem;
+    font-size: 1.1rem;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #fbbf24 !important;
+}
+
+/* Badges */
+.badge {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+}
+
+/* Alert */
+.alert {
+    border-radius: 15px;
+    border: none;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #fef3c7, #fed7aa);
+    color: #92400e;
+}
+
+/* List Groups */
+.list-group-item {
+    border-radius: 10px !important;
+    border: none;
+    margin-bottom: 0.5rem;
+    background-color: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+    background-color: #e5e7eb;
+    transform: translateX(5px);
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 50vh;
+        text-align: center;
+    }
+    
+    .hero-icon {
+        font-size: 4rem;
+        margin-top: 2rem;
+    }
+    
+    .symptoms-container {
+        max-height: 300px;
+    }
+    
+    .circle-progress {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .circle-progress::before {
+        width: 75px;
+        height: 75px;
+    }
+    
+    .circle-progress span {
+        font-size: 1.2rem;
+    }
+}
+
+/* Scrollbar Styling */
+.symptoms-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.symptoms-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.symptoms-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+.symptoms-container::-webkit-scrollbar-thumb:hover {
+    background: #6366f1;
+}
+
+/* Loading Animation */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Footer */
+footer {
+    background: linear-gradient(135deg, var(--dark-color), #374151) !important;
+}
+
+/* Utility Classes */
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary-color), #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shadow-lg {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+.bg-gradient-primary {
+    background: linear-gradient(135deg, var(--primary-color), #7c3aed) !important;
+}
