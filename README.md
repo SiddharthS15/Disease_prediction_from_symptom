@@ -291,6 +291,21 @@ https://your-app-name.railway.app
 # Flask 3.0.0, scikit-learn 1.4.0, pandas 2.1.4, etc.
 ```
 
+**Problem**: Healthcheck failures - "service unavailable"
+```bash
+# Solution: App takes time to load ML models
+# Increased healthcheck timeout to 10 minutes
+# Using gunicorn with single worker to reduce memory usage
+# Health endpoint available at /health
+```
+
+**Problem**: WSGI application not starting
+```bash
+# Solution: Created dedicated wsgi.py entry point
+# Using gunicorn instead of Flask development server
+# Proper error logging and path handling
+```
+
 **Problem**: App doesn't start
 - Check Railway logs in the dashboard
 - Ensure `Procfile` exists with correct start command
