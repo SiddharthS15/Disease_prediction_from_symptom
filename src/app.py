@@ -3,6 +3,11 @@ import joblib
 import numpy as np
 import pandas as pd
 import os
+import logging
+
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Get the project root directory
 project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -11,18 +16,29 @@ app = Flask(__name__,
             template_folder=os.path.join(project_root, 'templates'),
             static_folder=os.path.join(project_root, 'static'))
 
+# Initialize variables
+model = None
+symptoms_list = []
+disease_descriptions = {}
+disease_precautions = {}
+symptom_severity = {}
+
 # Load the trained model and data
 try:
     models_path = os.path.join(project_root, 'models')
+    logger.info(f"Loading models from: {models_path}")
+    
     model = joblib.load(os.path.join(models_path, 'disease_prediction_model.pkl'))
     symptoms_list = joblib.load(os.path.join(models_path, 'symptoms_list.pkl'))
     disease_descriptions = joblib.load(os.path.join(models_path, 'disease_descriptions.pkl'))
     disease_precautions = joblib.load(os.path.join(models_path, 'disease_precautions.pkl'))
     symptom_severity = joblib.load(os.path.join(models_path, 'symptom_severity.pkl'))
+    logger.info("Model and data loaded successfully!")
     print("Model and data loaded successfully!")
-except FileNotFoundError as e:
+except Exception as e:
+    logger.error(f"Error loading files: {e}")
     print(f"Error loading files: {e}")
-    print("Please run the Jupyter notebook first to train the model.")
+    print("App will start with limited functionality.")
 
 class DiseasePredictor:
     def __init__(self, model, symptoms_list, descriptions, precautions, severity):
@@ -82,9 +98,15 @@ class DiseasePredictor:
 
 # Initialize predictor
 try:
-    predictor = DiseasePredictor(model, symptoms_list, disease_descriptions, 
-                               disease_precautions, symptom_severity)
-except NameError:
+    if model is not None:
+        predictor = DiseasePredictor(model, symptoms_list, disease_descriptions, 
+                                   disease_precautions, symptom_severity)
+        logger.info("Predictor initialized successfully!")
+    else:
+        predictor = None
+        logger.warning("Predictor not initialized - model not loaded")
+except Exception as e:
+    logger.error(f"Error initializing predictor: {e}")
     predictor = None
 
 @app.route('/')
@@ -163,9 +185,15 @@ def health_check():
     status = {
         'status': 'healthy',
         'model_loaded': predictor is not None,
-        'total_symptoms': len(symptoms_list) if predictor else 0
+        'total_symptoms': len(symptoms_list) if symptoms_list else 0,
+        'app_version': '1.0.0'
     }
     return jsonify(status)
+
+@app.route('/ping')
+def ping():
+    """Simple ping endpoint"""
+    return 'pong'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)

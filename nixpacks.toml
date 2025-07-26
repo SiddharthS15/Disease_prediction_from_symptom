@@ -12,4 +12,4 @@ cmds = [
 cmds = ['echo "Build phase completed"']
 
 [start]
-cmd = '. venv/bin/activate && gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 180 --preload --access-logfile - --error-logfile - wsgi:application'
+cmd = '. venv/bin/activate && python debug_start.py'
