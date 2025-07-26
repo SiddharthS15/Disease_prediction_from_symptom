@@ -272,10 +272,23 @@ https://your-app-name.railway.app
 
 #### Common Issues and Solutions:
 
+**Problem**: `ModuleNotFoundError: No module named 'distutils'` or Python 3.12 compatibility issues
+```bash
+# Solution: Use Python 3.11 (specified in runtime.txt and .python-version)
+# Railway will automatically use the correct Python version
+# Updated requirements.txt with compatible package versions
+```
+
 **Problem**: Build fails due to memory limits
 ```bash
 # Solution: Reduce dependencies or use Railway Pro
-# Consider removing jupyter and ipykernel if not needed in production
+# Removed unnecessary packages like jupyter and ipykernel from requirements.txt
+```
+
+**Problem**: Package version conflicts
+```bash
+# Solution: Updated all packages to compatible versions
+# Flask 3.0.0, scikit-learn 1.4.0, pandas 2.1.4, etc.
 ```
 
 **Problem**: App doesn't start
