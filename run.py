@@ -19,5 +19,15 @@ from app import app
 
 if __name__ == '__main__':
     print("Starting Disease Prediction System...")
-    print("Open your browser and go to: http://localhost:5000")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    
+    # Get port from environment variable (Railway sets this)
+    port = int(os.environ.get('PORT', 5000))
+    
+    # For local development
+    if os.environ.get('RAILWAY_ENVIRONMENT') is None:
+        print("Open your browser and go to: http://localhost:5000")
+        app.run(debug=True, host='0.0.0.0', port=port)
+    else:
+        # For production (Railway)
+        print(f"Starting production server on port {port}")
+        app.run(debug=False, host='0.0.0.0', port=port)

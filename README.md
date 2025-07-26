@@ -25,6 +25,12 @@ A web-based machine learning project that predicts diseases based on user-select
   - [🔧 Troubleshooting](#-troubleshooting)
 - [📁 Project Structure](#-project-structure)
 - [🎯 Features Overview](#-features-overview)
+- [🚀 Deploy on Railway](#-deploy-on-railway)
+  - [📋 Prerequisites for Deployment](#-prerequisites-for-deployment)
+  - [🔧 Deployment Steps](#-deployment-steps)
+  - [⚙️ Environment Configuration](#️-environment-configuration)
+  - [🌐 Accessing Your Deployed App](#-accessing-your-deployed-app)
+  - [🔧 Troubleshooting Deployment](#-troubleshooting-deployment)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 - [👨‍💻 Developer](#-developer)
@@ -205,7 +211,145 @@ Disease_prediction_from_symptom/
 - **⚡ Fast Performance**: Optimized for quick predictions
 - **🔒 Privacy Focused**: No data stored, completely local processing
 
-### 🤝 Contributing
+---
+
+## 🚀 Deploy on Railway
+
+Deploy your Disease Prediction System to the cloud with Railway for free! Railway provides an easy way to deploy web applications with automatic builds and deployments.
+
+### 📋 Prerequisites for Deployment
+
+1. **GitHub Account** - Your code needs to be on GitHub
+2. **Railway Account** - Sign up at [railway.app](https://railway.app) (free)
+3. **Pushed Repository** - Your code should be pushed to GitHub
+
+### 🔧 Deployment Steps
+
+#### Step 1: Prepare Your Repository
+```bash
+# Make sure all files are committed and pushed to GitHub
+git add .
+git commit -m "Prepare for Railway deployment"
+git push origin main
+```
+
+#### Step 2: Deploy on Railway
+1. **Go to Railway** - Visit [railway.app](https://railway.app)
+2. **Sign In** - Use your GitHub account to sign in
+3. **Create New Project** - Click "New Project"
+4. **Deploy from GitHub** - Select "Deploy from GitHub repo"
+5. **Choose Repository** - Select your `Disease_prediction_from_symptom` repository
+6. **Deploy** - Railway will automatically detect and deploy your Flask app
+
+#### Step 3: Automatic Configuration
+Railway automatically detects:
+- ✅ Python application
+- ✅ Flask framework
+- ✅ Dependencies from `requirements.txt`
+- ✅ Start command from `Procfile`
+
+### ⚙️ Environment Configuration
+
+Railway automatically handles:
+- **Port Configuration** - Uses `PORT` environment variable
+- **Build Process** - Installs dependencies automatically
+- **Start Command** - Uses `python run.py` from Procfile
+- **Health Checks** - Monitors application health
+
+### 🌐 Accessing Your Deployed App
+
+1. **Build Process** - Wait for Railway to build (2-5 minutes)
+2. **Get URL** - Railway provides a unique URL like `your-app-name.railway.app`
+3. **Test Application** - Your disease prediction system is now live!
+
+#### Example Deployed URLs:
+```
+https://disease-prediction-production.railway.app
+https://your-app-name.railway.app
+```
+
+### 🔧 Troubleshooting Deployment
+
+#### Common Issues and Solutions:
+
+**Problem**: Build fails due to memory limits
+```bash
+# Solution: Reduce dependencies or use Railway Pro
+# Consider removing jupyter and ipykernel if not needed in production
+```
+
+**Problem**: App doesn't start
+- Check Railway logs in the dashboard
+- Ensure `Procfile` exists with correct start command
+- Verify all required files are in the repository
+
+**Problem**: Models not loading
+- Ensure all `.pkl` files are committed to the repository
+- Check file paths are relative, not absolute
+- Verify `models/` and `data/` directories are included
+
+**Problem**: Port binding issues
+- Railway automatically sets the `PORT` environment variable
+- The updated `run.py` handles this automatically
+
+#### Checking Deployment Logs:
+1. Go to Railway dashboard
+2. Select your project
+3. Click on "Deployments"
+4. View build and runtime logs
+
+### 📊 Deployment Features
+
+- **🔄 Automatic Deployments** - Updates when you push to GitHub
+- **📈 Usage Monitoring** - Track app performance and usage
+- **🔧 Environment Variables** - Configure settings without code changes
+- **📱 Custom Domains** - Add your own domain (Pro plan)
+- **⚡ Fast CDN** - Global content delivery network
+- **🔒 HTTPS** - Automatic SSL certificates
+
+### 💰 Railway Pricing
+
+- **Starter Plan** - Free ($0/month)
+  - 512MB RAM
+  - 1GB disk
+  - Shared CPU
+  - Perfect for this project!
+
+- **Pro Plan** - $5/month
+  - More resources
+  - Custom domains
+  - Priority support
+
+### 🎯 Post-Deployment Tips
+
+1. **Test All Features** - Verify symptom selection and prediction work
+2. **Check Performance** - Monitor response times
+3. **Update Repository** - Push updates to auto-deploy
+4. **Monitor Usage** - Use Railway dashboard for insights
+5. **Share Your App** - Your disease prediction system is now accessible worldwide!
+
+### 🔗 Useful Railway Commands
+
+```bash
+# Install Railway CLI (optional)
+npm install -g @railway/cli
+
+# Login to Railway
+railway login
+
+# Deploy from command line
+railway up
+
+# Check deployment status
+railway status
+
+# View logs
+railway logs
+```
+
+---
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
